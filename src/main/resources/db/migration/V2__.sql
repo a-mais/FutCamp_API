@@ -14,49 +14,49 @@ ALTER TABLE campeonato
     MODIFY ano INT NULL;
 
 ALTER TABLE estadio
-    MODIFY cidade VARCHAR (255);
+    MODIFY cidade VARCHAR(255);
 
 ALTER TABLE estadio
-    MODIFY cidade VARCHAR (255) NULL;
+    MODIFY cidade VARCHAR(255) NULL;
 
 ALTER TABLE time
-    MODIFY cidade VARCHAR (255);
+    MODIFY cidade VARCHAR(255);
 
 ALTER TABLE time
-    MODIFY cidade VARCHAR (255) NULL;
+    MODIFY cidade VARCHAR(255) NULL;
 
 ALTER TABLE estadio
-    MODIFY estado VARCHAR (255);
+    MODIFY estado VARCHAR(255);
 
 ALTER TABLE estadio
-    MODIFY estado VARCHAR (255) NULL;
+    MODIFY estado VARCHAR(255) NULL;
 
 ALTER TABLE time
-    MODIFY estado VARCHAR (255);
+    MODIFY estado VARCHAR(255);
 
 ALTER TABLE time
-    MODIFY estado VARCHAR (255) NULL;
+    MODIFY estado VARCHAR(255) NULL;
 
 ALTER TABLE campeonato
-    MODIFY nome VARCHAR (255);
+    MODIFY nome VARCHAR(255);
 
 ALTER TABLE campeonato
-    MODIFY nome VARCHAR (255) NULL;
+    MODIFY nome VARCHAR(255) NULL;
 
 ALTER TABLE estadio
-    MODIFY nome VARCHAR (255);
+    MODIFY nome VARCHAR(255);
 
 ALTER TABLE estadio
-    MODIFY nome VARCHAR (255) NULL;
+    MODIFY nome VARCHAR(255) NULL;
 
 ALTER TABLE jogador
-    MODIFY nome VARCHAR (255);
+    MODIFY nome VARCHAR(255);
 
 ALTER TABLE time
-    MODIFY nome VARCHAR (255);
+    MODIFY nome VARCHAR(255);
 
 ALTER TABLE time
-    MODIFY nome VARCHAR (255) NULL;
+    MODIFY nome VARCHAR(255) NULL;
 
 ALTER TABLE jogador
-    MODIFY posicao VARCHAR (255);
+    MODIFY posicao VARCHAR(255);

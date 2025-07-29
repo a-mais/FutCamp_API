@@ -2,6 +2,7 @@ package ifma.ppaulo.futcamp.service;
 
 import ifma.ppaulo.futcamp.dto.CampeonatoDTO;
 import ifma.ppaulo.futcamp.dto.ClassificacaoDTO;
+import ifma.ppaulo.futcamp.dto.TimeDTO;
 import ifma.ppaulo.futcamp.model.Campeonato;
 import ifma.ppaulo.futcamp.model.Partida;
 import ifma.ppaulo.futcamp.model.Time;
@@ -23,6 +24,7 @@ public class CampeonatoService {
     private final CampeonatoRepository campeonatoRepository;
     private final PartidaRepository partidaRepository;
     private final TimeRepository timeRepository;
+    private final TabelaService tabelaService;
 
     @Transactional
     public CampeonatoDTO criar(CampeonatoDTO campeonatoDTO) {
@@ -126,7 +128,7 @@ public class CampeonatoService {
     }
 
     @Transactional
-    public void adicionarTime(Integer campeonatoId, Integer timeId) {
+    public TimeDTO adicionarTimeCampeonato(Integer campeonatoId, Integer timeId) {
         Campeonato campeonato = campeonatoRepository.findById(campeonatoId)
                 .orElseThrow(() -> new EntityNotFoundException("Campeonato não encontrado"));
 
@@ -137,8 +139,24 @@ public class CampeonatoService {
             throw new IllegalStateException("Time já está participando deste campeonato");
         }
 
-        campeonato.getTimes().add(time);
+        // Adiciona o time ao campeonato
+        campeonato.addTime(time);
         campeonatoRepository.save(campeonato);
+
+        // Inicializa a posição do time na tabela
+        tabelaService.inicializarTimeNoCampeonato(timeId, campeonatoId);
+
+        return convertTimeToDTO(time);
+    }
+
+    @Transactional(readOnly = true)
+    public List<TimeDTO> listarTimesDoCampeonato(Integer campeonatoId) {
+        Campeonato campeonato = campeonatoRepository.findByIdWithTimes(campeonatoId)
+                .orElseThrow(() -> new EntityNotFoundException("Campeonato não encontrado"));
+
+        return campeonato.getTimes().stream()
+                .map(this::convertTimeToDTO)
+                .collect(Collectors.toList());
     }
 
     private void processarPartida(Partida partida, Map<Time, ClassificacaoDTO> tabelaMap) {
@@ -152,36 +170,33 @@ public class CampeonatoService {
         int golsMandante = partida.getResultado().getGolsMandante();
         int golsVisitante = partida.getResultado().getGolsVisitante();
 
-        // Atualiza jogos e gols
-        atualizarEstatisticas(classifMandante, golsMandante, golsVisitante);
-        atualizarEstatisticas(classifVisitante, golsVisitante, golsMandante);
+        // Atualiza jogos
+        classifMandante.setJogos(classifMandante.getJogos() + 1);
+        classifVisitante.setJogos(classifVisitante.getJogos() + 1);
 
-        // Atualiza pontos
+        // Atualiza gols
+        classifMandante.setGolsPro(classifMandante.getGolsPro() + golsMandante);
+        classifMandante.setGolsContra(classifMandante.getGolsContra() + golsVisitante);
+        classifVisitante.setGolsPro(classifVisitante.getGolsPro() + golsVisitante);
+        classifVisitante.setGolsContra(classifVisitante.getGolsContra() + golsMandante);
+
+        // Atualiza vitórias, empates, derrotas e pontos
         if (golsMandante > golsVisitante) {
-            atualizarPontuacao(classifMandante, classifVisitante, true);
-        } else if (golsVisitante > golsMandante) {
-            atualizarPontuacao(classifVisitante, classifMandante, true);
+            // Vitória do mandante
+            classifMandante.setVitorias(classifMandante.getVitorias() + 1);
+            classifMandante.setPontos(classifMandante.getPontos() + 3);
+            classifVisitante.setDerrotas(classifVisitante.getDerrotas() + 1);
+        } else if (golsMandante < golsVisitante) {
+            // Vitória do visitante
+            classifVisitante.setVitorias(classifVisitante.getVitorias() + 1);
+            classifVisitante.setPontos(classifVisitante.getPontos() + 3);
+            classifMandante.setDerrotas(classifMandante.getDerrotas() + 1);
         } else {
-            atualizarPontuacao(classifMandante, classifVisitante, false);
-        }
-    }
-
-    private void atualizarEstatisticas(ClassificacaoDTO classif, int golsPro, int golsContra) {
-        classif.setJogos(classif.getJogos() + 1);
-        classif.setGolsPro(classif.getGolsPro() + golsPro);
-        classif.setGolsContra(classif.getGolsContra() + golsContra);
-    }
-
-    private void atualizarPontuacao(ClassificacaoDTO vencedor, ClassificacaoDTO perdedor, boolean vitoria) {
-        if (vitoria) {
-            vencedor.setVitorias(vencedor.getVitorias() + 1);
-            vencedor.setPontos(vencedor.getPontos() + 3);
-            perdedor.setDerrotas(perdedor.getDerrotas() + 1);
-        } else {
-            vencedor.setEmpates(vencedor.getEmpates() + 1);
-            vencedor.setPontos(vencedor.getPontos() + 1);
-            perdedor.setEmpates(perdedor.getEmpates() + 1);
-            perdedor.setPontos(perdedor.getPontos() + 1);
+            // Empate
+            classifMandante.setEmpates(classifMandante.getEmpates() + 1);
+            classifVisitante.setEmpates(classifVisitante.getEmpates() + 1);
+            classifMandante.setPontos(classifMandante.getPontos() + 1);
+            classifVisitante.setPontos(classifVisitante.getPontos() + 1);
         }
     }
 
@@ -190,8 +205,6 @@ public class CampeonatoService {
                 .id(dto.getId())
                 .nome(dto.getNome())
                 .ano(dto.getAno())
-                .times(new HashSet<>())
-                .partidas(new HashSet<>())
                 .build();
     }
 
@@ -200,6 +213,14 @@ public class CampeonatoService {
                 .id(campeonato.getId())
                 .nome(campeonato.getNome())
                 .ano(campeonato.getAno())
+                .build();
+    }
+
+    private TimeDTO convertTimeToDTO(Time time) {
+        return TimeDTO.builder()
+                .id(time.getId())
+                .nome(time.getNome())
+                .cidade(time.getCidade())
                 .build();
     }
 }

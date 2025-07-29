@@ -3,6 +3,7 @@ package ifma.ppaulo.futcamp.controller;
 import ifma.ppaulo.futcamp.dto.JogadorDTO;
 import ifma.ppaulo.futcamp.service.JogadorService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,5 +45,16 @@ public class JogadorController {
     @GetMapping("/time/{timeId}")
     public ResponseEntity<List<JogadorDTO>> buscarPorTime(@PathVariable Integer timeId) {
         return ResponseEntity.ok(jogadorService.buscarPorTime(timeId));
+    }
+
+    @GetMapping("/buscar")
+    public ResponseEntity<Page<JogadorDTO>> buscarJogadores(
+            @RequestParam(required = false) String nome,
+            @RequestParam(required = false) Integer timeId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "nome") String sort) {
+
+        return ResponseEntity.ok(jogadorService.buscarPaginado(nome, timeId, page, size, sort));
     }
 }

@@ -7,6 +7,9 @@ import ifma.ppaulo.futcamp.repository.JogadorRepository;
 import ifma.ppaulo.futcamp.repository.TimeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,6 +77,24 @@ public class JogadorService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public Page<JogadorDTO> buscarPaginado(String nome, Integer timeId, int page, int size, String sort) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(sort));
+        Page<Jogador> jogadores;
+
+        if (nome != null && timeId != null) {
+            jogadores = jogadorRepository.findByNomeContainingIgnoreCase(nome, pageRequest);
+        } else if (timeId != null) {
+            jogadores = jogadorRepository.findByTimeId(timeId, pageRequest);
+        } else if (nome != null) {
+            jogadores = jogadorRepository.findByNomeContainingIgnoreCase(nome, pageRequest);
+        } else {
+            jogadores = jogadorRepository.findAll(pageRequest);
+        }
+
+        return jogadores.map(this::convertToDTO);
+    }
+
     private void validarJogador(JogadorDTO jogadorDTO) {
         if (jogadorDTO.getNome() == null || jogadorDTO.getNome().trim().isEmpty()) {
             throw new IllegalArgumentException("O nome do jogador é obrigatório");
@@ -109,8 +130,8 @@ public class JogadorService {
         return Jogador.builder()
                 .id(dto.getId())
                 .nome(dto.getNome())
-                .numeroCamisa(dto.getNumeroCamisa())
                 .posicao(dto.getPosicao())
+                .numeroCamisa(dto.getNumeroCamisa())
                 .time(time)
                 .build();
     }
@@ -119,8 +140,8 @@ public class JogadorService {
         return JogadorDTO.builder()
                 .id(jogador.getId())
                 .nome(jogador.getNome())
-                .numeroCamisa(jogador.getNumeroCamisa())
                 .posicao(jogador.getPosicao())
+                .numeroCamisa(jogador.getNumeroCamisa())
                 .timeId(jogador.getTime().getId())
                 .build();
     }

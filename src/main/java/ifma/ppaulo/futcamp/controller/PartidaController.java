@@ -40,4 +40,9 @@ public class PartidaController {
         partidaService.deletar(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/campeonato/{id}")
+    public ResponseEntity<List<PartidaDTO>> listarPartidasPorCampeonato(@PathVariable Integer id) {
+        return ResponseEntity.ok(partidaService.buscarPorCampeonato(id));
+    }
 }

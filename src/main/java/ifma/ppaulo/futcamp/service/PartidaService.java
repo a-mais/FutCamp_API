@@ -80,6 +80,28 @@ public class PartidaService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<PartidaDTO> listarPartidasOcorridas(Integer campeonatoId) {
+        Campeonato campeonato = campeonatoRepository.findById(campeonatoId)
+                .orElseThrow(() -> new EntityNotFoundException("Campeonato não encontrado"));
+
+        return partidaRepository.findByCampeonatoAndResultadoIsNotNull(campeonato)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<PartidaDTO> listarPartidasNaoOcorridas(Integer campeonatoId) {
+        Campeonato campeonato = campeonatoRepository.findById(campeonatoId)
+                .orElseThrow(() -> new EntityNotFoundException("Campeonato não encontrado"));
+
+        return partidaRepository.findByCampeonatoAndResultadoIsNull(campeonato)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
     private void validarPartida(PartidaDTO partidaDTO) {
         if (partidaDTO.getData().isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("A data da partida não pode ser anterior à data atual");
