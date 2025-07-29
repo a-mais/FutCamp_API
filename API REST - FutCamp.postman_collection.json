@@ -1,0 +1,766 @@
+{
+	"info": {
+		"_postman_id": "65e4af8b-7d82-4aca-894e-20a684f50882",
+		"name": "API REST - FutCamp",
+		"description": "### Campeonatos\n\n``` json\nGET /api/campeonatos\nPOST /api/campeonatos\n{\n    \"nome\": \"Campeonato Brasileiro\",\n    \"ano\": 2024\n}\nGET /api/campeonatos/{id}\nPUT /api/campeonatos/{id}\nDELETE /api/campeonatos/{id}\n\n ```\n\n### Times\n\n```\nGET /api/times\nPOST /api/times\n{\n    \"nome\": \"Flamengo\",\n    \"cidade\": \"Rio de Janeiro\",\n    \"estadio_id\": 1\n}\nGET /api/times/{id}\nPUT /api/times/{id}\nDELETE /api/times/{id}\n\n ```\n\n### Jogadores\n\n```\nGET /api/jogadores\nPOST /api/jogadores\n{\n    \"nome\": \"Neymar\",\n    \"posicao\": \"Atacante\",\n    \"numero\": 10,\n    \"time_id\": 1\n}\nGET /api/jogadores/{id}\nPUT /api/jogadores/{id}\nDELETE /api/jogadores/{id}\n\n ```\n\n### Estádios\n\n```\nGET /api/estadios\nPOST /api/estadios\n{\n    \"nome\": \"Maracanã\",\n    \"capacidade\": 78838,\n    \"cidade\": \"Rio de Janeiro\"\n}\nGET /api/estadios/{id}\nPUT /api/estadios/{id}\nDELETE /api/estadios/{id}\n\n ```\n\n### Partidas\n\n```\nGET /api/partidas\nPOST /api/partidas\n{\n    \"data\": \"2024-03-20\",\n    \"campeonato_id\": 1,\n    \"time_casa_id\": 1,\n    \"time_visitante_id\": 2,\n    \"estadio_id\": 1\n}\nGET /api/partidas/{id}\nPUT /api/partidas/{id}\nDELETE /api/partidas/{id}\n\n ```\n\n### Resultados\n\n```\nGET /api/resultados\nPOST /api/resultados\n{\n    \"gols_casa\": 2,\n    \"gols_visitante\": 1,\n    \"partida_id\": 1\n}\nGET /api/resultados/{id}\nPUT /api/resultados/{id}\nDELETE /api/resultados/{id}\n\n ```\n\n**Notas:**\n\n- Base URL: `http://localhost:8080`\n    \n- Todas as requisições POST/PUT devem incluir o header `Content-Type: application/json`\n    \n- Para PUT, envie o objeto completo com as alterações\n    \n- IDs nas URLs são numéricos\n    \n- As datas devem estar no formato `YYYY-MM-DD`",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36454120"
+	},
+	"item": [
+		{
+			"name": "Campeonato",
+			"item": [
+				{
+					"name": "Listar Campeonatos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/campeonatos",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"campeonatos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Campeonato por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/campeonatos/1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"campeonatos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar Campeonato",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Champions League\",\r\n    \"ano\": 2025\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/campeonatos",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"campeonatos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Campeonato",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Champions League\",\r\n    \"ano\": 2026\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/campeonatos/3",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"campeonatos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar Campeonato",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/campeonatos/3",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"campeonatos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Estadio",
+			"item": [
+				{
+					"name": "Listar Estádios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/estadios",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"estadios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Estádio por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/estadios/1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"estadios",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar Estádio",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Paysandu Arena\",\r\n    \"capacidade\": 3000000,\r\n    \"cidade\": \"Manaus\",\r\n    \"estado\": \"AM\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/estadios",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"estadios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Estádio",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Paysandu Arena 2\",\r\n    \"capacidade\": 3000000,\r\n    \"cidade\": \"São Luís\",\r\n    \"estado\": \"MA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/estadios/3",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"estadios",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar Estádio",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Paysandu Arena 2\",\r\n    \"capacidade\": 3000000,\r\n    \"cidade\": \"São Luís\",\r\n    \"estado\": \"MA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/estadios/3",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"estadios",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Jogador",
+			"item": [
+				{
+					"name": "Buscar Jogador Por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/jogadores/1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"jogadores",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Jogadores por Time",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/jogadores/1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"jogadores",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Jogadores por Campeonato",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/jogadores/1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"jogadores",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar Jogador",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Messi\",\r\n    \"dataNascimento\": null,\r\n    \"numeroCamisa\": 10,\r\n    \"posicao\": \"Zagueiro\",\r\n    \"timeId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/jogadores",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"jogadores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Jogador",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Messi Bocu\",\r\n    \"dataNascimento\": null,\r\n    \"numeroCamisa\": 10,\r\n    \"posicao\": \"Zagueiro\",\r\n    \"timeId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/jogadores/4",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"jogadores",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar Jogador",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/jogadores/4",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"jogadores",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Partida",
+			"item": [
+				{
+					"name": "Listar Todas as Partidas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/partidas",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"partidas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Todas as Partidas por Campeonato",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/partidas/campeonato/1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"partidas",
+								"campeonato",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar Partida",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": \"2025-07-28\",\r\n    \"timeMandanteId\": 1,\r\n    \"timeVisitanteId\": 2,\r\n    \"campeonatoId\": 1,\r\n    \"resultado\": {\r\n        \"id\": 9,\r\n        \"golsMandante\": 2,\r\n        \"golsVisitantes\": 3\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/partidas",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"partidas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Resultado",
+			"item": [
+				{
+					"name": "Listar Tabela do Campeonato",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/resultados/tabela/1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"resultados",
+								"tabela",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Resultado da Partida",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/resultados/1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"resultados",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Resultado",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/resultados/1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"resultados",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar Resultado",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"golsMandante\": 2,\r\n    \"golsVisitante\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/resultados?idPartida=6",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"resultados"
+							],
+							"query": [
+								{
+									"key": "idPartida",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar Resultado",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/resultados/1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"resultados",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Time",
+			"item": [
+				{
+					"name": "Listar Times",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/times",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"times"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Time por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/times/1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"times",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar Time",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/times",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"times"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar TIme",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/times/1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"times",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar Time",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/times/1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"times",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tabela",
+			"item": [
+				{
+					"name": "Buscar Tabela por Campeonato",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/tabela/campeonato/1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"tabela",
+								"campeonato",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Desempenho de um Time por Campeonato",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/tabela/time/1/campeonato/1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"tabela",
+								"time",
+								"1",
+								"campeonato",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Desempenho de um Time em Todos os Campeonatos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/tabela/time/1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"tabela",
+								"time",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar Time na Tabela",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/tabela/time/1/campeonato/1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"tabela",
+								"time",
+								"1",
+								"campeonato",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "https://postman-rest-api-learner.glitch.me/"
+		}
+	]
+}
